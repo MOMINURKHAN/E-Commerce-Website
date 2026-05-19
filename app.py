@@ -1,9 +1,29 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = "my_simple_ecommerce_123"
 
-# PRODUCTS WITH CATEGORIES
+# DATABASE CONFIG
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+# LOGIN MANAGER
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# USER MODEL
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+
+# PRODUCTS
 products = [
     {"id": 1, "name": "Basic T-Shirt", "price": 15.99, "category": "Clothing", "desc": "Soft cotton casual t-shirt.", "img": "tshirt.jpg"},
     {"id": 2, "name": "Sports Shoes", "price": 49.99, "category": "Shoes", "desc": "Lightweight running shoes.", "img": "shoes.jpg"},
@@ -18,14 +38,20 @@ products = [
     {"id": 11, "name": "Socks Pack", "price": 5.99, "category": "Clothing", "desc": "5 pair soft cotton socks.", "img": "socks.jpg"}
 ]
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 def get_product_by_id(product_id):
     return next((p for p in products if p["id"] == product_id), None)
 
+# HOME
 @app.route('/')
 def home():
     categories = list(set(p['category'] for p in products))
     return render_template("index.html", categories=categories)
 
+# SHOP & CATEGORIES
 @app.route('/products')
 def show_products():
     return render_template("products.html", items=products)
@@ -35,18 +61,21 @@ def category_page(category_name):
     filtered = [p for p in products if p['category'] == category_name]
     return render_template("products.html", items=filtered, category=category_name)
 
+# SEARCH & FILTER
 @app.route('/search')
 def search():
     query = request.args.get('q', '').lower()
     results = [p for p in products if query in p['name'].lower() or query in p['desc'].lower()]
     return render_template("products.html", items=results, query=query)
+
 @app.route('/filter-price')
 def filter_price():
     min_p = float(request.args.get('min', 0))
     max_p = float(request.args.get('max', 1000))
     filtered = [p for p in products if min_p <= p['price'] <= max_p]
-    return render_template("products.html", items=filtered, min_price=min_p, max_price=max_p)
+    return render_template("products.html", items=filtered)
 
+# PRODUCT DETAIL
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
     product = get_product_by_id(product_id)
@@ -54,6 +83,7 @@ def product_detail(product_id):
         return redirect(url_for('show_products'))
     return render_template('product_detail.html', product=product)
 
+# CART
 @app.route('/add-to-cart/<int:product_id>')
 def add_to_cart(product_id):
     product = get_product_by_id(product_id)
@@ -79,13 +109,22 @@ def remove_from_cart(index):
             cart.pop(index)
             session['cart'] = cart
     return redirect(url_for('cart_page'))
-#idk maybe it should add here 
+
+@app.route('/clear-cart')
+def clear_cart():
+    session.pop('cart', None)
+    return redirect(url_for('cart_page'))
+
+# CHECKOUT & PAYMENT
 @app.route('/checkout')
+@login_required
 def checkout():
     cart_items = session.get('cart', [])
     total = sum(i['price'] for i in cart_items)
     return render_template("checkout.html", items=cart_items, total=total)
-@app.route('/payment',methods=["GET","POST"])
+
+@app.route('/payment', methods=["GET","POST"])
+@login_required
 def payment():
     if request.method=="POST":
         user_data = {
@@ -93,19 +132,48 @@ def payment():
             "phone":request.form.get("phone"),
             "address":request.form.get("address")
         }
-        return render_template("payment.html",user=user_data)
+        return render_template("payment.html", user=user_data)
     return redirect(url_for("checkout"))
 
 @app.route('/order-success')
+@login_required
 def order_success():
-    session.pop('cart',None)
+    session.pop('cart', None)
     return render_template("success.html")
 
-@app.route('/clear-cart')
-def clear_cart():
-    session.pop('cart', None)
-    return redirect(url_for('cart_page'))
+# LOGIN / SIGNUP
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('home'))
+        else:
+            return "Invalid email or password"
+    return render_template('login.html')
 
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = generate_password_hash(request.form['password'])
+        new_user = User(username=username, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('signup.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+# PAGES
 @app.route('/about')
 def about():
     return render_template("about.html")
@@ -113,6 +181,10 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template("contact.html")
+
+# CREATE DATABASE
+with app.app_context():
+    db.create_all()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=10000)
