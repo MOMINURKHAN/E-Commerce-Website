@@ -16,7 +16,8 @@
         <img src="{{ url_for('static', filename='images/' + item.img) }}"
              alt="{{ item.name }}"
              width="160" height="160">
-        <h3>{{ item.name }}</h3>
+        <!-- In your for loop, replace the h3 line with this -->
+        <h3><a href="/product/{{ item.id }}">{{ item.name }}</a></h3>
         <p><strong>${{ item.price }}</strong></p>
         <p>{{ item.desc }}</p>
         <a href="/add-to-cart/{{ item.id }}">

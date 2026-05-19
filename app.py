@@ -62,6 +62,13 @@ def add_to_cart(product_id):
 
     return redirect(url_for('cart_page'))
 
+# Add this function BEFORE the cart routes
+@app.route('/product/<int:product_id>')
+def product_detail(product_id):
+    product = get_product_by_id(product_id)
+    if not product:
+        return redirect(url_for('show_products'))
+    return render_template('product_detail.html', product=product)
 # Cart page
 @app.route('/cart')
 def cart_page():

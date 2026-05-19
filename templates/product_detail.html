@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+    <a href="/products">← Back to All Products</a>
+    <hr>
+    <div style="display: flex; gap: 30px; align-items: flex-start;">
+        <img src="/static/images/{{ product.img }}" width="300" height="300" alt="{{ product.name }}">
+        <div>
+            <h2>Price: ${{ product.price }}</h2>
+            <p><strong>Description:</strong> {{ product.desc }}</p>
+            <br>
+            <a href="/add-to-cart/{{ product.id }}">
+                <button>Add to Cart</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
