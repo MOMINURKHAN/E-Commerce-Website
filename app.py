@@ -146,12 +146,16 @@ def payment():
         cart = session.get('cart', [])
         total = sum(i['price'] for i in cart)
         items_str = ", ".join([i['name'] for i in cart])
+        
+        # Save order to DB
         order = Order(user_id=current_user.id, fullname=name, address=address, phone=phone, total=total, items=items_str)
         db.session.add(order)
         db.session.commit()
-        return render_template("payment.html")
+        
+        # Redirect directly to success page (FIXES 500 ERROR)
+        return redirect(url_for('order_success'))
+    
     return redirect(url_for("checkout"))
-
 @app.route('/order-success')
 @login_required
 def order_success():
