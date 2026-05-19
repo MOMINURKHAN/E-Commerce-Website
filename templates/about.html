@@ -21,5 +21,114 @@
         </div>
     </div>
 
+    <style>
+.floating-cart{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    z-index:999;
+}
+.cart-icon-btn{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#b21f1f;
+    color:white;
+    border:none;
+    font-size:24px;
+    cursor:pointer;
+    box-shadow:0 4px 12px #0003;
+    transition:0.3s;
+}
+.cart-icon-btn:hover{
+    transform:scale(1.1);
+}
+.cart-count-badge{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    background:#fff;
+    color:#b21f1f;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:13px;
+}
+.mini-cart-panel{
+    position:absolute;
+    bottom:75px;
+    right:0;
+    width:320px;
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 4px 15px #0002;
+    display:none;
+    max-height:400px;
+    overflow-y:auto;
+}
+.floating-cart:hover .mini-cart-panel{
+    display:block;
+}
+.mini-item{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid #eee;
+}
+.mini-total{
+    font-weight:bold;
+    margin:10px 0;
+}
+.mini-btn{
+    display:block;
+    text-align:center;
+    padding:8px;
+    margin:5px 0;
+    background:#1a2a6c;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
+}
+.remove-mini{
+    color:red;
+    cursor:pointer;
+    font-size:14px;
+}
+</style>
+
+<div class="floating-cart">
+    <button class="cart-icon-btn">
+        🛒
+        {% set cart_list = session.get('cart', []) %}
+        {% if cart_list|length > 0 %}
+        <span class="cart-count-badge">{{ cart_list|length }}</span>
+        {% endif %}
+    </button>
+    <div class="mini-cart-panel">
+        <h4 style="margin-bottom:10px;">Your Cart Items</h4>
+        {% if cart_list|length == 0 %}
+        <p>Cart is empty</p>
+        {% else %}
+            {% for item in cart_list %}
+            <div class="mini-item">
+                <div>
+                    <small>{{ item.name }}</small>
+                    <div>${{ item.price }}</div>
+                </div>
+                <a href="/remove-from-cart/{{ loop.index0 }}" class="remove-mini">Remove</a>
+            </div>
+            {% endfor %}
+            <div class="mini-total">Total : ${{ cart_list|sum(attribute='price') }}</div>
+        {% endif %}
+        <a href="/cart" class="mini-btn">View Full Cart</a>
+        <a href="/checkout" class="mini-btn" style="background:#b21f1f;">Go Checkout</a>
+    </div>
+</div>
+
 </body>
 </html>

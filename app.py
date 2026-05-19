@@ -40,6 +40,12 @@ def search():
     query = request.args.get('q', '').lower()
     results = [p for p in products if query in p['name'].lower() or query in p['desc'].lower()]
     return render_template("products.html", items=results, query=query)
+@app.route('/filter-price')
+def filter_price():
+    min_p = float(request.args.get('min', 0))
+    max_p = float(request.args.get('max', 1000))
+    filtered = [p for p in products if min_p <= p['price'] <= max_p]
+    return render_template("products.html", items=filtered, min_price=min_p, max_price=max_p)
 
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
@@ -73,6 +79,27 @@ def remove_from_cart(index):
             cart.pop(index)
             session['cart'] = cart
     return redirect(url_for('cart_page'))
+#idk maybe it should add here 
+@app.route('/checkout')
+def checkout():
+    cart_items = session.get('cart', [])
+    total = sum(i['price'] for i in cart_items)
+    return render_template("checkout.html", items=cart_items, total=total)
+@app.route('/payment',methods=["GET","POST"])
+def payment():
+    if request.method=="POST":
+        user_data = {
+            "name":request.form.get("fullname"),
+            "phone":request.form.get("phone"),
+            "address":request.form.get("address")
+        }
+        return render_template("payment.html",user=user_data)
+    return redirect(url_for("checkout"))
+
+@app.route('/order-success')
+def order_success():
+    session.pop('cart',None)
+    return render_template("success.html")
 
 @app.route('/clear-cart')
 def clear_cart():

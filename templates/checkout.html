@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="/products">All Products</a>
+    <a href="/cart">Cart</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+</div>
+<div class="container page">
+    <h1>Checkout Page</h1>
+    {% if items|length ==0 %}
+    <p>Your cart is empty please add items first</p>
+    <a href="/products" class="btn">Shop Now</a>
+    {% else %}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:20px;">
+        <div>
+            <h3>Shipping Details</h3>
+            <form action="/payment" method="post">
+                <input type="text" name="fullname" placeholder="Full Name" required style="width:100%;padding:10px;margin:8px 0;">
+                <input type="text" name="phone" placeholder="Phone Number" required style="width:100%;padding:10px;margin:8px 0;">
+                <textarea name="address" placeholder="Full Address" required rows="3" style="width:100%;padding:10px;margin:8px 0;"></textarea>
+                <button type="submit" class="btn">Proceed To Payment</button>
+            </form>
+        </div>
+        <div>
+            <h3>Order Summary</h3>
+            {% for p in items %}
+            <p>{{p.name}} - ${{p.price}}</p>
+            {% endfor %}
+            <hr>
+            <h3>Grand Total : ${{total}}</h3>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<!-- paste floating cart code here too -->
+</body>
+</html>
