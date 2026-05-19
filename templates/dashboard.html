@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container">
+    <div class="page">
+        <h1>Welcome, {{ current_user.username }}!</h1>
+        <h3>Your Order History</h3>
+        <hr>
+        {% if orders|length == 0 %}
+            <p>No orders yet.</p>
+        {% else %}
+            <table style="width:100%;border-collapse:collapse;margin-top:20px;">
+                <tr style="background:#f2f2f2;">
+                    <th style="padding:10px;border:1px solid #ddd;">Order ID</th>
+                    <th style="padding:10px;border:1px solid #ddd;">Items</th>
+                    <th style="padding:10px;border:1px solid #ddd;">Total</th>
+                    <th style="padding:10px;border:1px solid #ddd;">Date</th>
+                </tr>
+                {% for o in orders %}
+                <tr>
+                    <td style="padding:10px;border:1px solid #ddd;">{{ o.id }}</td>
+                    <td style="padding:10px;border:1px solid #ddd;">{{ o.items }}</td>
+                    <td style="padding:10px;border:1px solid #ddd;">${{ o.total }}</td>
+                    <td style="padding:10px;border:1px solid #ddd;">{{ o.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

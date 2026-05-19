@@ -2,26 +2,38 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "my_simple_ecommerce_123"
 
-# DATABASE CONFIG
+# DATABASE
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# LOGIN MANAGER
+# LOGIN
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# USER MODEL
+# MODELS
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+    orders = db.relationship('Order', backref='user', lazy=True)
+
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    fullname = db.Column(db.String(200))
+    address = db.Column(db.String(500))
+    phone = db.Column(db.String(20))
+    total = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    items = db.Column(db.Text, nullable=False)
 
 # PRODUCTS
 products = [
@@ -51,7 +63,7 @@ def home():
     categories = list(set(p['category'] for p in products))
     return render_template("index.html", categories=categories)
 
-# SHOP & CATEGORIES
+# SHOP
 @app.route('/products')
 def show_products():
     return render_template("products.html", items=products)
@@ -81,7 +93,8 @@ def product_detail(product_id):
     product = get_product_by_id(product_id)
     if not product:
         return redirect(url_for('show_products'))
-    return render_template('product_detail.html', product=product)
+    related = [p for p in products if p['category'] == product['category'] and p['id'] != product_id][:4]
+    return render_template('product_detail.html', product=product, related=related)
 
 # CART
 @app.route('/add-to-cart/<int:product_id>')
@@ -115,7 +128,7 @@ def clear_cart():
     session.pop('cart', None)
     return redirect(url_for('cart_page'))
 
-# CHECKOUT & PAYMENT
+# CHECKOUT & ORDER
 @app.route('/checkout')
 @login_required
 def checkout():
@@ -127,12 +140,16 @@ def checkout():
 @login_required
 def payment():
     if request.method=="POST":
-        user_data = {
-            "name":request.form.get("fullname"),
-            "phone":request.form.get("phone"),
-            "address":request.form.get("address")
-        }
-        return render_template("payment.html", user=user_data)
+        name = request.form.get("fullname")
+        phone = request.form.get("phone")
+        address = request.form.get("address")
+        cart = session.get('cart', [])
+        total = sum(i['price'] for i in cart)
+        items_str = ", ".join([i['name'] for i in cart])
+        order = Order(user_id=current_user.id, fullname=name, address=address, phone=phone, total=total, items=items_str)
+        db.session.add(order)
+        db.session.commit()
+        return render_template("payment.html")
     return redirect(url_for("checkout"))
 
 @app.route('/order-success')
@@ -140,6 +157,13 @@ def payment():
 def order_success():
     session.pop('cart', None)
     return render_template("success.html")
+
+# USER DASHBOARD
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    orders = Order.query.filter_by(user_id=current_user.id).order_by(Order.date.desc()).all()
+    return render_template("dashboard.html", orders=orders)
 
 # LOGIN / SIGNUP
 @app.route('/login', methods=['GET','POST'])
@@ -182,7 +206,7 @@ def about():
 def contact():
     return render_template("contact.html")
 
-# CREATE DATABASE
+# CREATE DB
 with app.app_context():
     db.create_all()
 

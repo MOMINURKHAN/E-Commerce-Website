@@ -5,16 +5,8 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<div class="navbar">
-    <a href="/">Home</a>
-    <a href="/products">Products</a>
-    {% if current_user.is_authenticated %}
-        <a href="/logout">Logout</a>
-    {% else %}
-        <a href="/login">Login</a>
-        <a href="/signup">Sign Up</a>
-    {% endif %}
-</div>
+{% include 'navbar.html' %}
+
 <div class="container" style="max-width:500px;">
     <div class="page" style="padding:40px;">
         <h2>Create Account</h2><br>
