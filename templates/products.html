@@ -1,29 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Products | My Shop</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>All Products</h1>
-    <a href="/">Home</a>
-    <a href="/cart">Cart</a>
-    <hr>
 
-    {% for item in items %}
-    <div class="product-card">
-        <img src="{{ url_for('static', filename='images/' + item.img) }}"
-             alt="{{ item.name }}"
-             width="160" height="160">
-        <!-- In your for loop, replace the h3 line with this -->
-        <h3><a href="/product/{{ item.id }}">{{ item.name }}</a></h3>
-        <p><strong>${{ item.price }}</strong></p>
-        <p>{{ item.desc }}</p>
-        <a href="/add-to-cart/{{ item.id }}">
-            <button>Add to Cart</button>
-        </a>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/products">Products</a>
+        <a href="/cart">Cart</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
     </div>
-    {% endfor %}
+
+    <div class="container">
+        <h1 style="text-align:center; margin-bottom:25px;">All Products</h1>
+        <div class="product-grid">
+            {% for item in items %}
+            <div class="product-card">
+                <img src="/static/images/{{ item.img }}">
+                <h3><a href="/product/{{ item.id }}">{{ item.name }}</a></h3>
+                <div class="price">${{ item.price }}</div>
+                <a href="/add-to-cart/{{ item.id }}"><button>Add to Cart</button></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
 </body>
 </html>

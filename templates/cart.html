@@ -1,26 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Your Cart</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Your Shopping Cart</h1>
-    <a href="/products">Continue Shopping</a>
-    <a href="/clear-cart">Clear Cart</a>
-    <hr>
 
-    {% if items|length == 0 %}
-        <h3>Your cart is empty 😢</h3>
-    {% else %}
-        {% for item in items %}
-        <div class="cart-item">
-            <h3>{{ item.name }}</h3>
-            <p>Price: ${{ item.price }}</p>
-        </div>
-        {% endfor %}
-        <h2 class="total">Total: ${{ total }}</h2>
-    {% endif %}
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/products">Products</a>
+        <a href="/cart">Cart</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <div class="container">
+        <h1>Shopping Cart</h1>
+
+        {% if items|length == 0 %}
+            <div class="page"><h3>Your cart is empty</h3></div>
+        {% else %}
+            {% for item in items %}
+            <div class="cart-item">
+                <div>
+                    <h3>{{ item.name }}</h3>
+                    <p>${{ item.price }}</p>
+                </div>
+                <a href="/remove-from-cart/{{ loop.index0 }}">
+                    <button class="remove-btn">Remove</button>
+                </a>
+            </div>
+            {% endfor %}
+
+            <div class="total">Total: ${{ total }}</div>
+            <br>
+            <a href="/clear-cart" class="btn" style="background:#e74c3c;">Clear Cart</a>
+        {% endif %}
+    </div>
+
 </body>
 </html>
