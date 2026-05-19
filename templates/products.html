@@ -8,14 +8,28 @@
 
     <div class="navbar">
         <a href="/">Home</a>
-        <a href="/products">Products</a>
+        <a href="/products">All Products</a>
         <a href="/cart">Cart</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
     </div>
 
+    <div class="search-bar">
+        <form action="/search" method="get">
+            <input type="text" name="q" placeholder="Search products...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
     <div class="container">
+        {% if category %}
+        <h1 style="text-align:center; margin-bottom:25px;">Category: {{ category }}</h1>
+        {% elif query %}
+        <h1 style="text-align:center; margin-bottom:25px;">Search Results for "{{ query }}"</h1>
+        {% else %}
         <h1 style="text-align:center; margin-bottom:25px;">All Products</h1>
+        {% endif %}
+
         <div class="product-grid">
             {% for item in items %}
             <div class="product-card">

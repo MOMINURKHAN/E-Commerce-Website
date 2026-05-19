@@ -8,17 +8,33 @@
 
     <div class="navbar">
         <a href="/">Home</a>
-        <a href="/products">Products</a>
+        <a href="/products">All Products</a>
         <a href="/cart">Cart</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
+    </div>
+
+    <div class="search-bar">
+        <form action="/search" method="get">
+            <input type="text" name="q" placeholder="Search products...">
+            <button type="submit">Search</button>
+        </form>
     </div>
 
     <div class="container">
         <div class="hero">
             <h1>Welcome to My E-Commerce Store</h1>
             <p>High-quality products at affordable prices. Shop now for casual wear, accessories, bags, shoes, and daily essentials.</p>
-            <a href="/products" class="btn">Start Shopping</a>
+            <a href="/products" class="btn">Browse All Products</a>
+        </div>
+
+        <h2 style="text-align:center; margin:40px 0 20px;">Shop by Category</h2>
+        <div class="categories">
+            {% for cat in categories %}
+            <div class="category-box">
+                <a href="/category/{{ cat }}">{{ cat }}</a>
+            </div>
+            {% endfor %}
         </div>
     </div>
 
