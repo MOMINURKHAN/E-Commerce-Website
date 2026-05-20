@@ -37,17 +37,31 @@ class Order(db.Model):
 
 # PRODUCTS
 products = [
-    {"id": 1, "name": "Basic T-Shirt", "price": 15.99, "category": "Clothing", "desc": "Soft cotton casual t-shirt.", "img": "tshirt.jpg"},
-    {"id": 2, "name": "Sports Shoes", "price": 49.99, "category": "Shoes", "desc": "Lightweight running shoes.", "img": "shoes.jpg"},
-    {"id": 3, "name": "Casual Bag", "price": 25.50, "category": "Bags", "desc": "Spacious daily use bag.", "img": "bag.jpg"},
-    {"id": 4, "name": "Sunglasses", "price": 12.99, "category": "Accessories", "desc": "UV protection stylish glasses.", "img": "sunglasses.jpg"},
-    {"id": 5, "name": "Watch", "price": 35.99, "category": "Accessories", "desc": "Classic analog wrist watch.", "img": "watch.jpg"},
-    {"id": 6, "name": "Cap", "price": 9.99, "category": "Accessories", "desc": "Breathable cotton sport cap.", "img": "cap.jpg"},
-    {"id": 7, "name": "Backpack", "price": 39.99, "category": "Bags", "desc": "Large travel backpack.", "img": "backpack.jpg"},
-    {"id": 8, "name": "Wallet", "price": 18.50, "category": "Accessories", "desc": "Leather stylish wallet.", "img": "wallet.jpg"},
-    {"id": 9, "name": "Water Bottle", "price": 8.99, "category": "Accessories", "desc": "Steel water bottle.", "img": "bottle.jpg"},
-    {"id": 10, "name": "Hoodie", "price": 29.99, "category": "Clothing", "desc": "Warm winter hoodie.", "img": "hoodie.jpg"},
-    {"id": 11, "name": "Socks Pack", "price": 5.99, "category": "Clothing", "desc": "5 pair soft cotton socks.", "img": "socks.jpg"}
+    {"id": 1, "name": "Basic Cotton T-Shirt", "price": 14.99, "category": "Clothing", "desc": "Soft, breathable, regular fit.", "img": "tshirt.jpg"},
+    {"id": 2, "name": "Running Sports Shoes", "price": 54.99, "category": "Shoes", "desc": "Lightweight, comfortable for running.", "img": "shoes.jpg"},
+    {"id": 3, "name": "Casual Shoulder Bag", "price": 27.50, "category": "Bags", "desc": "Spacious, stylish daily use bag.", "img": "bag.jpg"},
+    {"id": 4, "name": "UV Protection Sunglasses", "price": 13.99, "category": "Accessories", "desc": "Stylish sunglasses with UV protection.", "img": "sunglasses.jpg"},
+    {"id": 5, "name": "Analog Wrist Watch", "price": 38.99, "category": "Accessories", "desc": "Classic design, long battery life.", "img": "watch.jpg"},
+    {"id": 6, "name": "Sports Cotton Cap", "price": 8.99, "category": "Accessories", "desc": "Breathable, adjustable size.", "img": "cap.jpg"},
+    {"id": 7, "name": "Large Travel Backpack", "price": 42.99, "category": "Bags", "desc": "Waterproof, durable, large capacity.", "img": "backpack.jpg"},
+    {"id": 8, "name": "Genuine Leather Wallet", "price": 19.50, "category": "Accessories", "desc": "Slim, stylish, card slots.", "img": "wallet.jpg"},
+    {"id": 9, "name": "Steel Water Bottle", "price": 9.49, "category": "Accessories", "desc": "Cold & hot insulation.", "img": "bottle.jpg"},
+    {"id": 10, "name": "Winter Warm Hoodie", "price": 31.99, "category": "Clothing", "desc": "Soft fleece inside, warm.", "img": "hoodie.jpg"},
+    {"id": 11, "name": "Cotton Socks 5 Pair", "price": 6.49, "category": "Clothing", "desc": "Soft, stretchable, comfortable.", "img": "socks.jpg"},
+    {"id": 12, "name": "Denim Jeans", "price": 34.99, "category": "Clothing", "desc": "Regular fit, durable fabric.", "img": "jeans.jpg"},
+    {"id": 13, "name": "Leather Belt", "price": 11.99, "category": "Accessories", "desc": "Genuine leather, adjustable.", "img": "belt.jpg"},
+    {"id": 14, "name": "Formal Shoes", "price": 49.99, "category": "Shoes", "desc": "For office, party, casual wear.", "img": "formalshoes.jpg"},
+    {"id": 15, "name": "Laptop Sleeve Bag", "price": 22.99, "category": "Bags", "desc": "Protective, lightweight.", "img": "laptopbag.jpg"},
+    {"id": 16, "name": "Wireless Earbuds", "price": 29.99, "category": "Gadgets", "desc": "Good sound, long battery.", "img": "earbuds.jpg"},
+    {"id": 17, "name": "Phone Cover", "price": 12.99, "category": "Gadgets", "desc": "Shockproof, stylish design.", "img": "phonecover.jpg"},
+    {"id": 18, "name": "Sunglasses Sport", "price": 15.99, "category": "Accessories", "desc": "For cycling, running, outdoor.", "img": "sportsunglass.jpg"},
+    {"id": 19, "name": "Polo Shirt", "price": 18.99, "category": "Clothing", "desc": "Smart fit, casual wear.", "img": "polo.jpg"},
+    {"id": 20, "name": "Jacket Windbreaker", "price": 39.99, "category": "Clothing", "desc": "Windproof, rainproof, lightweight.", "img": "jacket.jpg"},
+    {"id": 21, "name": "Travel Duffel Bag", "price": 35.99, "category": "Bags", "desc": "For travel, gym, luggage.", "img": "duffel.jpg"},
+    {"id": 22, "name": "Canvas Shoes", "price": 29.99, "category": "Shoes", "desc": "Casual, comfortable, stylish.", "img": "canvasshoes.jpg"},
+    {"id": 23, "name": "Hair Band", "price": 4.99, "category": "Accessories", "desc": "Elastic, for sports & daily use.", "img": "hairband.jpg"},
+    {"id": 24, "name": "Key Chain", "price": 3.99, "category": "Accessories", "desc": "Stylish metal key ring.", "img": "keychain.jpg"},
+    {"id": 25, "name": "Face Mask Pack 10", "price": 5.99, "category": "Health", "desc": "Disposable, breathable, safe.", "img": "mask.jpg"}
 ]
 
 @login_manager.user_loader
@@ -209,6 +223,21 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template("contact.html")
+@app.route('/profile', methods=['GET','POST'])
+@login_required
+def profile():
+    if request.method == 'POST':
+        new_name = request.form['username']
+        new_pass = request.form['password']
+        
+        current_user.username = new_name
+        if new_pass:
+            current_user.password = generate_password_hash(new_pass)
+        
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    
+    return render_template('profile.html')
 
 # CREATE DB
 with app.app_context():

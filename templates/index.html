@@ -3,37 +3,53 @@
 <head>
     <title>My E-Shop | Home</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .hero-banner {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1556740755-90de374c12ad');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            border-radius: 15px;
+            animation: fadeIn 1.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-banner h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .hero-banner p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+    </style>
 </head>
 <body>
 
-    {% include 'navbar.html' %}
+{% include 'navbar.html' %}
 
-
-
-    <div class="search-bar">
-        <form action="/search" method="get">
-            <input type="text" name="q" placeholder="Search products...">
-            <button type="submit">Search</button>
-        </form>
+<div class="container">
+    <div class="hero-banner">
+        <h1>Welcome to My Premium Store</h1>
+        <p>High-quality products at the best prices. Shop the latest collection now.</p>
+        <a href="/products" class="btn">Shop Now</a>
     </div>
 
-    <div class="container">
-        <div class="hero">
-            <h1>Welcome to My E-Commerce Store</h1>
-            <p>High-quality products at affordable prices. Shop now for casual wear, accessories, bags, shoes, and daily essentials.</p>
-            <a href="/products" class="btn">Browse All Products</a>
+    <h2 style="text-align:center; margin:50px 0 20px;">Shop by Category</h2>
+    <div class="categories">
+        {% for cat in categories %}
+        <div class="category-box">
+            <a href="/category/{{ cat }}">{{ cat }}</a>
         </div>
-
-        <h2 style="text-align:center; margin:40px 0 20px;">Shop by Category</h2>
-        <div class="categories">
-            {% for cat in categories %}
-            <div class="category-box">
-                <a href="/category/{{ cat }}">{{ cat }}</a>
-            </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
- {% include 'floating_cart.html' %}
- 
+</div>
+
+{% include 'floating_cart.html' %}
 </body>
 </html>

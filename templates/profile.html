@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container" style="max-width:500px;">
+    <div class="page">
+        <h2>Edit Profile</h2><br>
+        <form method="post">
+            <label>Username</label>
+            <input type="text" name="username" value="{{ current_user.username }}" required style="width:100%;padding:12px;margin:8px 0;">
+            
+            <label>New Password (leave blank to keep old)</label>
+            <input type="password" name="password" placeholder="New Password" style="width:100%;padding:12px;margin:8px 0;">
+            
+            <button type="submit" class="btn" style="width:100%;">Update Profile</button>
+        </form>
+    </div>
+</div>
+{% include 'floating_cart.html' %}
+</body>
+</html>
