@@ -348,6 +348,18 @@ def contact():
 # ------------------------------
 with app.app_context():
     db.create_all()
+# ------------------------------
+# AUTO ADMIN - PERMANENT FIX
+# ------------------------------
+with app.app_context():
+    db.create_all()
+    # AUTO MAKE YOU ADMIN FOREVER
+    admin_email = "khanmominul527@gmail.com"
+    admin_user = User.query.filter_by(email=admin_email).first()
+    if admin_user:
+        admin_user.is_admin = True
+        db.session.commit()
+        print("✅ AUTO ADMIN ENABLED FOR YOUR ACCOUNT")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=10000, debug= True)
