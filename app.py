@@ -56,31 +56,31 @@ class Review(db.Model):
 # PRODUCTS (25 PRODUCTS)
 # ------------------------------
 products = [
-    {"id": 1, "name": "Basic Cotton T-Shirt", "price": 14.99, "category": "Clothing", "desc": "Soft, breathable, regular fit.", "img": "tshirt.jpg"},
-    {"id": 2, "name": "Running Sports Shoes", "price": 54.99, "category": "Shoes", "desc": "Lightweight, comfortable for running.", "img": "shoes.jpg"},
-    {"id": 3, "name": "Casual Shoulder Bag", "price": 27.50, "category": "Bags", "desc": "Spacious, stylish daily use bag.", "img": "bag.jpg"},
-    {"id": 4, "name": "UV Protection Sunglasses", "price": 13.99, "category": "Accessories", "desc": "Stylish sunglasses with UV protection.", "img": "sunglasses.jpg"},
-    {"id": 5, "name": "Analog Wrist Watch", "price": 38.99, "category": "Accessories", "desc": "Classic design, long battery life.", "img": "watch.jpg"},
-    {"id": 6, "name": "Sports Cotton Cap", "price": 8.99, "category": "Accessories", "desc": "Breathable, adjustable size.", "img": "cap.jpg"},
-    {"id": 7, "name": "Large Travel Backpack", "price": 42.99, "category": "Bags", "desc": "Waterproof, durable, large capacity.", "img": "backpack.jpg"},
-    {"id": 8, "name": "Genuine Leather Wallet", "price": 19.50, "category": "Accessories", "desc": "Slim, stylish, card slots.", "img": "wallet.jpg"},
-    {"id": 9, "name": "Steel Water Bottle", "price": 9.49, "category": "Accessories", "desc": "Cold & hot insulation.", "img": "bottle.jpg"},
-    {"id": 10, "name": "Winter Warm Hoodie", "price": 31.99, "category": "Clothing", "desc": "Soft fleece inside, warm.", "img": "hoodie.jpg"},
-    {"id": 11, "name": "Cotton Socks 5 Pair", "price": 6.49, "category": "Clothing", "desc": "Soft, stretchable, comfortable.", "img": "socks.jpg"},
-    {"id": 12, "name": "Denim Jeans", "price": 34.99, "category": "Clothing", "desc": "Regular fit, durable fabric.", "img": "jeans.jpg"},
-    {"id": 13, "name": "Leather Belt", "price": 11.99, "category": "Accessories", "desc": "Genuine leather, adjustable.", "img": "belt.jpg"},
-    {"id": 14, "name": "Formal Shoes", "price": 49.99, "category": "Shoes", "desc": "For office, party, casual wear.", "img": "formalshoes.jpg"},
-    {"id": 15, "name": "Laptop Sleeve Bag", "price": 22.99, "category": "Bags", "desc": "Protective, lightweight.", "img": "laptopbag.jpg"},
-    {"id": 16, "name": "Wireless Earbuds", "price": 29.99, "category": "Gadgets", "desc": "Good sound, long battery.", "img": "earbuds.jpg"},
-    {"id": 17, "name": "Phone Cover", "price": 12.99, "category": "Gadgets", "desc": "Shockproof, stylish design.", "img": "phonecover.jpg"},
-    {"id": 18, "name": "Sunglasses Sport", "price": 15.99, "category": "Accessories", "desc": "For cycling, running, outdoor.", "img": "sportsunglass.jpg"},
-    {"id": 19, "name": "Polo Shirt", "price": 18.99, "category": "Clothing", "desc": "Smart fit, casual wear.", "img": "polo.jpg"},
-    {"id": 20, "name": "Jacket Windbreaker", "price": 39.99, "category": "Clothing", "desc": "Windproof, rainproof, lightweight.", "img": "jacket.jpg"},
-    {"id": 21, "name": "Travel Duffel Bag", "price": 35.99, "category": "Bags", "desc": "For travel, gym, luggage.", "img": "duffel.jpg"},
-    {"id": 22, "name": "Canvas Shoes", "price": 29.99, "category": "Shoes", "desc": "Casual, comfortable, stylish.", "img": "canvasshoes.jpg"},
-    {"id": 23, "name": "Hair Band", "price": 4.99, "category": "Accessories", "desc": "Elastic, for sports & daily use.", "img": "hairband.jpg"},
-    {"id": 24, "name": "Key Chain", "price": 3.99, "category": "Accessories", "desc": "Stylish metal key ring.", "img": "keychain.jpg"},
-    {"id": 25, "name": "Face Mask Pack 10", "price": 5.99, "category": "Health", "desc": "Disposable, breathable, safe.", "img": "mask.jpg"}
+    {"id": 1, "name": "Basic Plain T-Shirt", "price": 15.99, "stock": 35, "category": "Clothing"},
+    {"id": 2, "name": "Striped Casual Shirt", "price": 22.99, "stock": 28, "category": "Clothing"},
+    {"id": 3, "name": "Slim Fit Denim Jeans", "price": 29.99, "stock": 20, "category": "Clothing"},
+    {"id": 4, "name": "Winter Wool Jacket", "price": 58.99, "stock": 12, "category": "Clothing"},
+    {"id": 5, "name": "Cotton Hoodie", "price": 27.99, "stock": 24, "category": "Clothing"},
+    {"id": 6, "name": "Sports Running Shoes", "price": 45.99, "stock": 16, "category": "Shoes"},
+    {"id": 7, "name": "Formal Leather Shoes", "price": 62.99, "stock": 9, "category": "Shoes"},
+    {"id": 8, "name": "Daily Casual Sneakers", "price": 32.99, "stock": 30, "category": "Shoes"},
+    {"id": 9, "name": "Flip Flop Sandals", "price": 8.99, "stock": 45, "category": "Shoes"},
+    {"id": 10, "name": "Stylish Sunglasses", "price": 18.99, "stock": 22, "category": "Accessories"},
+    {"id": 11, "name": "Classic Analog Wrist Watch", "price": 36.99, "stock": 14, "category": "Accessories"},
+    {"id": 12, "name": "Genuine Leather Wallet", "price": 14.99, "stock": 32, "category": "Accessories"},
+    {"id": 13, "name": "Fabric Baseball Cap", "price": 7.99, "stock": 38, "category": "Accessories"},
+    {"id": 14, "name": "Travel Backpack Bag", "price": 26.99, "stock": 19, "category": "Bags"},
+    {"id": 15, "name": "Mini Crossbody Handbag", "price": 21.99, "stock": 25, "category": "Bags"},
+    {"id": 16, "name": "Laptop Carry Bag", "price": 31.99, "stock": 11, "category": "Bags"},
+    {"id": 17, "name": "Wireless Bluetooth Earbuds", "price": 48.99, "stock": 17, "category": "Gadgets"},
+    {"id": 18, "name": "Protective Phone Case", "price": 6.99, "stock": 50, "category": "Gadgets"},
+    {"id": 19, "name": "Portable Power Bank", "price": 23.99, "stock": 21, "category": "Gadgets"},
+    {"id": 20, "name": "USB Fast Charger Cable", "price": 5.99, "stock": 42, "category": "Gadgets"},
+    {"id": 21, "name": "Cotton Formal Trouser", "price": 24.99, "stock": 26, "category": "Clothing"},
+    {"id": 22, "name": "Sports Sweatpants", "price": 19.99, "stock": 33, "category": "Clothing"},
+    {"id": 23, "name": "Fashion Bracelet", "price": 4.99, "stock": 60, "category": "Accessories"},
+    {"id": 24, "name": "Outdoor Hiking Shoes", "price": 52.99, "stock": 8, "category": "Shoes"},
+    {"id": 25, "name": "Small Cosmetic Pouch", "price": 9.99, "stock": 29, "category": "Bags"}
 ]
 
 @login_manager.user_loader
@@ -297,6 +297,41 @@ def make_admin(user_id):
         user.is_admin = True
         db.session.commit()
     return redirect(url_for('admin_panel'))
+
+# ------------------------------
+# ADMIN DASHBOARD
+# ------------------------------
+@app.route('/admin/dashboard')
+@login_required
+def admin_dashboard():
+    if not current_user.is_admin:
+        return "Access Denied"
+    users = User.query.all()
+    orders = Order.query.all()
+    reviews = Review.query.all()
+    return render_template('admin_dashboard.html', users=users, orders=orders, reviews=reviews, products=products)
+
+@app.route('/admin/delete/user/<int:user_id>')
+@login_required
+def admin_delete_user(user_id):
+    if not current_user.is_admin:
+        return "Access Denied"
+    user = User.query.get(user_id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+    return redirect('/admin/dashboard')
+
+@app.route('/admin/delete/order/<int:order_id>')
+@login_required
+def admin_delete_order(order_id):
+    if not current_user.is_admin:
+        return "Access Denied"
+    order = Order.query.get(order_id)
+    if order:
+        db.session.delete(order)
+        db.session.commit()
+    return redirect('/admin/dashboard')
 
 # ------------------------------
 # LOGIN / SIGNUP / LOGOUT

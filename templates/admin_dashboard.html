@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container">
+    <h1>Admin Dashboard</h1>
+
+    <h2>Products (Stock)</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        {% for p in products %}
+        <div style="border:1px solid #ddd;padding:15px;border-radius:10px;">
+            <h3>{{ p.name }}</h3>
+            <p>${{ p.price }}</p>
+            <p>Stock: {{ p.stock }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Users</h2>
+    <ul>
+        {% for u in users %}
+        <li>{{ u.username }} | {{ u.email }}
+            <a href="/admin/delete/user/{{u.id}}" style="color:red;">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Orders</h2>
+    {% for o in orders %}
+    <div style="border:1px solid #ddd;padding:15px;margin:10px 0;border-radius:10px;">
+        <p>User ID: {{ o.user_id }}</p>
+        <p>Items: {{ o.items }}</p>
+        <p>Total: ${{ o.total }}</p>
+        <a href="/admin/delete/order/{{o.id}}" style="color:red;">Delete Order</a>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>
