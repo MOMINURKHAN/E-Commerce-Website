@@ -4,40 +4,48 @@
     <title>My E-Shop | Home</title>
     <link rel="stylesheet" href="/static/style.css">
     <style>
-        .hero-banner {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1556740755-90de374c12ad');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-            border-radius: 15px;
-            animation: fadeIn 1.5s ease;
+        *{transition: all 0.3s ease;}
+        .slider-wrap{overflow:hidden;border-radius:15px;margin:20px 0;} 
+        .slide{width:100%;min-height:380px;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:white;text-align:center;padding:20px;}
+        .s1{background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(https://images.unsplash.com/photo-1472851294608-062f824d29cc);}
+        .s2{background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(https://images.unsplash.com/photo-1556742049-0cfed4f6a45b);}
+        .s3{background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(https://images.unsplash.com/photo-1523381210434-271e8be1f52b);}
+        .slide h1{font-size:42px;margin-bottom:15px;animation:fadeUp 1s ease;}
+        .slide p{font-size:18px;margin-bottom:25px;animation:fadeUp 1.2s ease;}
+        @keyframes fadeUp{
+            from{opacity:0;transform:translateY(30px);}
+            to{opacity:1;transform:translateY(0);}
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .hero-banner h1 {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-        .hero-banner p {
-            font-size: 20px;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
+        .category-box:hover{transform:scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.2);}
     </style>
 </head>
 <body>
-
 {% include 'navbar.html' %}
-
 <div class="container">
-    <div class="hero-banner">
-        <h1>Welcome to My Premium Store</h1>
-        <p>High-quality products at the best prices. Shop the latest collection now.</p>
-        <a href="/products" class="btn">Shop Now</a>
+    <div class="slider-wrap">
+        <div class="slider">
+            <div class="slide s1">
+                <div>
+                    <h1>Latest Fashion Collection</h1>
+                    <p>Trendy outfits for every occasion</p>
+                    <a href="/products" class="btn">Shop Now</a>
+                </div>
+            </div>
+            <div class="slide s2">
+                <div>
+                    <h1>Quality Footwear & Bags</h1>
+                    <p>Durable & stylish daily essentials</p>
+                    <a href="/category/Shoes" class="btn">Explore</a>
+                </div>
+            </div>
+            <div class="slide s3">
+                <div>
+                    <h1>Gadgets & Accessories</h1>
+                    <p>Best deals on trending items</p>
+                    <a href="/category/Gadgets" class="btn">View Items</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <h2 style="text-align:center; margin:50px 0 20px;">Shop by Category</h2>
@@ -49,7 +57,6 @@
         {% endfor %}
     </div>
 </div>
-
 {% include 'floating_cart.html' %}
 </body>
 </html>

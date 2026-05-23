@@ -252,3 +252,25 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
+.product-card{
+    transition: 0.3s ease;
+}
+.product-card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.slider{
+    display:flex;
+    width:300%;
+    animation:slide 22s infinite ease-in-out;
+    animation-delay: 3s;
+}
+@keyframes slide{
+    0%   {transform:translateX(0);}
+    25%  {transform:translateX(0);}
+    35%  {transform:translateX(-100%);}
+    60%  {transform:translateX(-100%);}
+    70%  {transform:translateX(-200%);}
+    95%  {transform:translateX(-200%);}
+    100% {transform:translateX(0);}
+}

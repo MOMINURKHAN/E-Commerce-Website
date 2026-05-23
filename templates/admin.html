@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:20px;}
+        table{width:100%;border-collapse:collapse;margin:10px 0;}
+        th,td{border:1px solid #ddd;padding:8px;text-align:left;}
+        th{background:#1a2a6c;color:white;}
+    </style>
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container page">
+    <h1>Admin Control Panel</h1>
+    <div class="admin-grid">
+        <div>
+            <h3>Registered Users</h3>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Admin</th>
+                </tr>
+                {% for u in users %}
+                <tr>
+                    <td>{{u.id}}</td>
+                    <td>{{u.username}}</td>
+                    <td>{{u.email}}</td>
+                    <td>
+                        {% if u.is_admin %} Yes
+                        {% else %} <a href="/make-admin/{{u.id}}">Set Admin</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div>
+            <h3>All Customer Orders</h3>
+            <table>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                </tr>
+                {% for o in orders %}
+                <tr>
+                    <td>{{o.id}}</td>
+                    <td>{{o.user.username}}</td>
+                    <td>{{o.items}}</td>
+                    <td>${{o.total}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% include 'floating_cart.html' %}
+</body>
+</html>

@@ -25,7 +25,26 @@
         </div>
     </div>
 {% include 'floating_cart.html' %}
+<a href="/add-to-wishlist/{{product.id}}" class="btn" style="background:#e63946;">❤️ Add To Wishlist</a>
+<h3>Reviews</h3>
+<form method="post" action="/add-review/{{product.id}}">
+    <select name="rating" required>
+        <option value="5">5 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="1">1 ⭐</option>
+    </select>
+    <textarea name="comment" placeholder="Write review..." required></textarea>
+    <button type="submit">Post Review</button>
+</form>
 
+{% for r in reviews %}
+<div style="border:1px solid #ddd; padding:10px; margin:10px 0;">
+    <strong>{{ r.user.username }}</strong> | {{ r.rating }} ⭐
+    <p>{{ r.comment }}</p>
+</div>
+{% endfor %}
 
 </body>
 </html>
